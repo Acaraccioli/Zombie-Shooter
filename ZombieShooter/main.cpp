@@ -2,23 +2,73 @@
 #include<SDL_image.h>
 #include<iostream>
 #include<SDL_mixer.h>
-//#include<SDL_ttf.h>
+#include<SDL_ttf.h>
+#include <sstream>
+#include <fstream>
+
+
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Event Event;
 SDL_Texture *backg,*zombie,*sol,*sold,*character2,*zombie2,*zombie3,*zombie4, *menu, *gameover,*bang, *ganar;
 SDL_Rect rect_backg,rect_zombie,rect_sol,rect_sold,rect_character2,rect_zombie2,rect_zombie3,rect_zombie4,rect_menu, rect_gameover, rect_bang, rect_ganar;
 int dir = 1;
+int sobrevivir=0;
 using namespace std;
+
+SDL_Texture *resetText()
+{
+    TTF_Font *font= TTF_OpenFont("BewareoftheZombies.ttf",30);
+    TTF_Font *font2= TTF_OpenFont("omb.ttf",40);
+
+    SDL_Color color={138,64,0,0};
+    int num_lectura2;
+    stringstream ss;
+    ifstream in("highscore");
+                in.read((char*)&num_lectura2,4);
+                cout <<num_lectura2<<endl;
+                in.close();
+    ss<<num_lectura2;
+    string str=ss.str();
+    const char *cstr= str.c_str();
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font2,"Ultimo Puntaje:",color);
+    SDL_Surface *puntosSurface = TTF_RenderText_Solid(font2,cstr,color);
+    SDL_Texture *text;
+    text= SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Texture *text2= SDL_CreateTextureFromSurface(renderer, puntosSurface);
+    SDL_Rect rec;
+    rec.x=10;
+    rec.y=450;
+    SDL_Rect punt;
+    punt.x=300;
+    punt.y=450;
+    SDL_QueryTexture(text,NULL,NULL,&rec.w,&rec.h);
+    SDL_QueryTexture(text2,NULL,NULL,&punt.w,&punt.h);
+    return text2;
+
+}
 
 int main( int argc, char* args[] )
 {
+
+
 
     //Init SDL
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         return 10;
     }
+
+    //ttf
+    if(TTF_Init()<0)
+    {
+        return 40;
+    }
+
+
+
+
+
     //Creates a SDL Window
     if((window = SDL_CreateWindow("Zombie Shooter", 100, 100, 1024/*WIDTH*/, 512/*HEIGHT*/, SDL_WINDOW_RESIZABLE | SDL_RENDERER_PRESENTVSYNC)) == NULL)
     {
@@ -42,6 +92,35 @@ int main( int argc, char* args[] )
 
     //Init textures
     int w=0,h=0;
+
+    TTF_Font *font= TTF_OpenFont("BewareoftheZombies.ttf",30);
+    TTF_Font *font2= TTF_OpenFont("omb.ttf",40);
+
+    SDL_Color color={138,64,0,0};
+    int num_lectura2;
+    stringstream ss;
+    ifstream in("highscore");
+                in.read((char*)&num_lectura2,4);
+                cout <<num_lectura2<<endl;
+                in.close();
+    ss<<num_lectura2;
+    string str=ss.str();
+    const char *cstr= str.c_str();
+    SDL_Surface *textSurface = TTF_RenderText_Solid(font2,"Ultimo Puntaje:",color);
+    SDL_Surface *puntosSurface = TTF_RenderText_Solid(font2,cstr,color);
+    SDL_Texture *text;
+    text= SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_Texture *text2= SDL_CreateTextureFromSurface(renderer, puntosSurface);
+    SDL_Rect rec;
+    rec.x=10;
+    rec.y=450;
+    SDL_Rect punt;
+    punt.x=300;
+    punt.y=450;
+    SDL_QueryTexture(text,NULL,NULL,&rec.w,&rec.h);
+    SDL_QueryTexture(text2,NULL,NULL,&punt.w,&punt.h);
+
+
 
     backg = IMG_LoadTexture(renderer,"fondo.jpg");
     SDL_QueryTexture(backg, NULL, NULL, &w, &h);
@@ -93,8 +172,12 @@ int main( int argc, char* args[] )
     SDL_QueryTexture(bang, NULL, NULL, &w, &h);
     rect_bang.x = 310; rect_bang.y = 292; rect_bang.w = w; rect_bang.h = h;
 
-int mover=0, mover2=0, mover3=0, mover4=0, estado=1, dificultad=7, vida1=4, vida2=4, vida3=4,vida4=4, sobrevivir=0, modo=10;
+int mover=0, mover2=0, mover3=0, mover4=0, estado=1, dificultad=7, vida1=4, vida2=4, vida3=4,vida4=4, modo=10;
 bool vivo1=false, vivo2=false;
+bool modoo=false;
+int num_lectura;
+
+
     //Main Loop
     while(true)
     {
@@ -104,9 +187,22 @@ bool vivo1=false, vivo2=false;
         case 1:
 
             SDL_RenderCopy(renderer, menu, NULL, &rect_menu);
+            //resetText();
+            SDL_RenderCopy(renderer,text,NULL, &rec);
+            SDL_RenderCopy(renderer,resetText(),NULL, &punt);
+
+
 
             while(SDL_PollEvent(&Event))
             {
+                ifstream in("highscore");
+                in.read((char*)&num_lectura,4);
+                cout <<num_lectura<<endl;
+                in.close();
+
+
+
+
                 if(Event.type == SDL_QUIT)
                     return 0;
 
@@ -117,9 +213,9 @@ bool vivo1=false, vivo2=false;
                     if(Event.key.keysym.sym == SDLK_2)
                         dificultad=7;
                     if(Event.key.keysym.sym == SDLK_3)
-                        dificultad=4;
-                    if(Event.key.keysym.sym == SDLK_3)
-                        modo=1000;
+                        dificultad=3;
+                    if(Event.key.keysym.sym == SDLK_4)
+                        modoo=true;
                     if(Event.key.keysym.sym == SDLK_RETURN)
                         {
                             vivo1=false; vivo2=false;
@@ -130,8 +226,10 @@ bool vivo1=false, vivo2=false;
                             vida1=4; vida2=4; vida3=4; vida4=4;
                             sobrevivir=0;
                             modo=10;
-                            estado=2;
+                            if(modoo)
+                                modo=10000;
 
+                            estado=2;
                         }
 
                 }
@@ -160,6 +258,12 @@ bool vivo1=false, vivo2=false;
                 if(rect_zombie.x>250 || rect_zombie2.x<500 || rect_zombie3.x>250 || rect_zombie4.x<500)
                   {
                      estado=3;
+                     //archivo binario
+                        ofstream out("highscore");
+                        out.write((char*)&sobrevivir,4);
+                        out.close();
+                        modoo=false;
+
                      break;
                   }
                   if(sobrevivir==modo)

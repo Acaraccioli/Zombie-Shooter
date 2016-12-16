@@ -344,15 +344,3 @@
 	"begin_code.h"
 	"close_code.h"
 
-1479506367 source:c:\users\alejandro caraccioli\desktop\zombieshooter\main.cpp
-	<SDL.h>
-	<SDL_image.h>
-	<iostream>
-	<SDL_mixer.h>
-
-1479506367 source:c:\users\alejandro caraccioli\desktop\prograiii\zombieshooter\main.cpp
-	<SDL.h>
-	<SDL_image.h>
-	<iostream>
-	<SDL_mixer.h>
-

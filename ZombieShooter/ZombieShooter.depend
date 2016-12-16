@@ -1,9 +1,12 @@
 # depslib dependency file v1.0
-1480098032 source:c:\users\alejandro caraccioli\desktop\prograiii\zombieshooter\main.cpp
+1480112223 source:c:\users\alejandro caraccioli\desktop\zombieshooter-master\zombieshooter\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<sstream>
+	<fstream>
 
 1476935894 c:\users\alejandro caraccioli\downloads\mingw_dev_lib\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -330,7 +333,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1451801792 c:\users\alejandro caraccioli\desktop\prograiii\zombieshooter\sdl2_mixer-2.0.1\i686-w64-mingw32\include\sdl2\sdl_mixer.h
+1479503108 c:\users\alejandro caraccioli\desktop\zombieshooter-master\zombieshooter\sdl2_mixer-2.0.1\i686-w64-mingw32\include\sdl2\sdl_mixer.h
 	"SDL_stdinc.h"
 	"SDL_rwops.h"
 	"SDL_audio.h"
@@ -339,9 +342,8 @@
 	"begin_code.h"
 	"close_code.h"
 
-1480098032 source:c:\users\alejandro caraccioli\documents\github\zombie-shooter\zombieshooter\main.cpp
-	<SDL.h>
-	<SDL_image.h>
-	<iostream>
-	<SDL_mixer.h>
+1454362933 c:\users\alejandro caraccioli\downloads\sdl2_ttf-2.0.14\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
 
